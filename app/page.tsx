@@ -181,7 +181,7 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch('https://nmd-generators.onrender.com/api/contact', {
+      const response = await fetch('https://api.nmdgenerators.com/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
