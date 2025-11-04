@@ -13,8 +13,9 @@ router.post('/contact', async (req, res) => {
         }
 
         const mailOptions = {
-            from: `"${name}" <${email}>`,
-            to:  "nmdgenerators@gmail.com" || process.env.ADMIN_EMAIL,
+            from: `"NMD Generators Enquiry" <${process.env.SMTP_USER}>`,
+            to: process.env.ADMIN_EMAIL || "nmdgenerators@gmail.com",
+            replyTo: email,
             subject: "New Enquiry from Contact Form",
             html: `
                 <h2>New Enquiry from Contact Form</h2>
