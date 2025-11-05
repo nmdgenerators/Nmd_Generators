@@ -454,7 +454,7 @@ export default function Home() {
               }}
             >
               {[...products, ...products].map((product, index) => (
-                <div key={index} className="w-1/4 flex-shrink-0">
+                <div key={index} className="md:w-1/4 flex-shrink-0">
                   <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 flex flex-col items-center text-center shadow-2xl shadow-[#eb3337]/20 hover:shadow-2xl hover:shadow-[#eb3337]/30 transition-all duration-500 border border-white/30 hover:scale-105 hover:-translate-y-2 group min-h-[430px] mb-5 mx-2">
                     <div className="w-24 h-24 mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-[#eb3337] to-[#d12832] flex items-center justify-center relative shadow-lg shadow-[#eb3337]/40 group-hover:shadow-xl group-hover:shadow-[#eb3337]/50 transition-all duration-300">
                       <Image
