@@ -444,17 +444,17 @@ export default function Home() {
       {/* Products Section */}
       <section id="products" className="py-22 px-6 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
         <h3 className="text-2xl font-bold text-center my-10 text-gray-900 drop-shadow-sm">Our Products</h3>
-        <div className="relative max-w-8xl mx-auto">
+        <div className="relative max-w-full mx-auto">
           {/* Multi-Product Carousel Container */}
           <div className="relative overflow-hidden rounded-2xl">
             <div 
               className="flex transition-transform duration-500 ease-in-out"
               style={{
-                transform: `translateX(-${currentProductSlide * 20}%)`
+                transform: `translateX(-${currentProductSlide * (100 / products.length)}%)`
               }}
             >
-              {products.map((product, index) => (
-                <div key={index} className="w-1/5 flex-shrink-0">
+              {[...products, ...products].map((product, index) => (
+                <div key={index} className="w-1/4 flex-shrink-0">
                   <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 flex flex-col items-center text-center shadow-2xl shadow-[#eb3337]/20 hover:shadow-2xl hover:shadow-[#eb3337]/30 transition-all duration-500 border border-white/30 hover:scale-105 hover:-translate-y-2 group min-h-[430px] mb-5 mx-2">
                     <div className="w-24 h-24 mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-[#eb3337] to-[#d12832] flex items-center justify-center relative shadow-lg shadow-[#eb3337]/40 group-hover:shadow-xl group-hover:shadow-[#eb3337]/50 transition-all duration-300">
                       <Image
@@ -483,37 +483,7 @@ export default function Home() {
                   </div>
                 </div>
               ))}
-              {/* Duplicate products for seamless scrolling */}
-              {products.map((product, index) => (
-                <div key={`duplicate-${index}`} className="w-1/5 flex-shrink-0">
-                  <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 flex flex-col items-center text-center shadow-2xl shadow-[#eb3337]/20 hover:shadow-2xl hover:shadow-[#eb3337]/30 transition-all duration-500 border border-white/30 hover:scale-105 hover:-translate-y-2 group min-h-[430px] mb-5 mx-2">
-                    <div className="w-24 h-24 mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-[#eb3337] to-[#d12832] flex items-center justify-center relative shadow-lg shadow-[#eb3337]/40 group-hover:shadow-xl group-hover:shadow-[#eb3337]/50 transition-all duration-300">
-                      <Image
-                        src={product.image}
-                        alt={product.title}
-                        width={96}
-                        height={96}
-                        className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
-                      />
-                    </div>
-                    <h4 className="font-bold text-lg mb-3 text-gray-900 group-hover:text-[#eb3337] transition-colors duration-300">{product.title}</h4>
-                    <div className="text-gray-600 text-sm leading-relaxed mb-4 flex-grow">
-                      {product.desc.includes('•') ? (
-                        <ul className="text-left space-y-1">
-                          {product.desc.split('\n').map((point, idx) => (
-                            <li key={idx} className="text-[16px]">{point}</li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p className="text-[16px]">{product.desc}</p>
-                      )}
-                    </div>
-                    <button className="mt-auto bg-[#eb3337] text-white px-6 py-2 rounded-lg hover:bg-[#d12832] hover:scale-105 transition-all duration-300 text-sm font-medium shadow-lg shadow-[#eb3337]/30 hover:shadow-xl hover:shadow-[#eb3337]/40 border border-[#eb3337]/20 cursor-pointer" onClick={() => scrollToSection('contact')}>
-                      Contact
-                    </button>
-                  </div>
-                </div>
-              ))}
+             
             </div>
           </div>
           
@@ -531,20 +501,7 @@ export default function Home() {
             &#8250;
           </button>
           
-          {/* Dot Indicators */}
-          <div className="flex justify-center mt-8 space-x-3">
-            {products.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentProductSlide(index)}
-                className={`w-4 h-4 rounded-full transition-all duration-300 ${
-                  index === currentProductSlide 
-                    ? 'bg-[#eb3337] shadow-2xl shadow-[#eb3337]/50 scale-125 border-2 border-white' 
-                    : 'bg-gray-300 hover:bg-[#eb3337]/50 hover:scale-110'
-                }`}
-              />
-            ))}
-          </div>
+
         </div>
       </section>
 
@@ -557,7 +514,7 @@ export default function Home() {
         <h3 className="text-2xl font-bold text-center mb-10 relative z-10 drop-shadow-sm">
           Our Services
         </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-7xl mx-auto relative z-10">
           {[
             {
               title: "Installation",
@@ -690,7 +647,7 @@ manageable.
             >
               {Array.from({ length: Math.ceil(galleryImages.length / 5) }).map((_, slideIndex) => (
                 <div key={slideIndex} className="w-full flex-shrink-0">
-                  <div className="grid grid-cols-5 gap-4">
+                  <div className="grid grid-cols-1 gap-4">
                     {galleryImages.slice(slideIndex * 5, (slideIndex + 1) * 5).map((image, i) => (
                       <div
                         key={i}
