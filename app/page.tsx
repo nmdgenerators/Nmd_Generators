@@ -8,6 +8,8 @@ export default function Home() {
   const [currentGallerySlide, setCurrentGallerySlide] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', mobile: '', location: '', message: '' });
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imageZoom, setImageZoom] = useState(1);
   const slides = [
     {
       src: "/sliderone.jpg",
@@ -30,41 +32,41 @@ export default function Home() {
   ];
 
   const products = [
-  {
-    title: "Kirloskar",
-    desc: "• Enclosed diesel power generators\n• From 30kva – 250kva\n• Ultimate Convenience with AMF\n• Status Indicators",
-    image: "/product1.jpg",
-    icon: "🏭"
-  },
-  {
-    title: "Cummins", 
-    desc: "• Enclosed diesel power generators\n• From 30kva – 250kva\n• Ultimate Convenience with AMF\n• Low emission",
-    image: "/product2.jpg",
-    icon: "⚙️"
-  },
-  {
-    title: "Mahindra Power Generators",
-    desc: "• Enclosed diesel power generators\n• From 30kva – 250kva\n• Robust design for optimal functioning under the most extreme conditions\n• Fuel Efficient", 
-    image: "/product3.png",
-    icon: "⚡"
-  },
-  // {
-  //   title: "Parts & Accessories",
-  //   desc: "• Comprehensive range of genuine parts and accessories\n• Maintain peak performance of your equipment\n• Professional installation and support\n• Quality guaranteed components",
-  //   image: "/product4.png", 
-  //   icon: "🔧"
-  // },
-  {
-    title: "Ashok Leyland",
-    desc: "• Enclosed diesel power generators\n• From 30kva – 250kva\n• Ultimate Convenience with AMF\n• Status Indicators",
-    image: "/asok.webp",
-    icon: "🚚"
-  }
+    {
+      title: "Kirloskar",
+      desc: "• Enclosed diesel power generators\n• From 30kva – 250kva\n• Ultimate Convenience with AMF\n• Status Indicators",
+      image: "/kirloskar.jpg",
+      icon: "🏭"
+    },
+    {
+      title: "Cummins",
+      desc: "• Enclosed diesel power generators\n• From 30kva – 250kva\n• Ultimate Convenience with AMF\n• Low emission",
+      image: "/cummin.jpg",
+      icon: "⚙️"
+    },
+    {
+      title: "Mahindra Power Generators",
+      desc: "• Enclosed diesel power generators\n• From 30kva – 250kva\n• Robust design for optimal functioning under the most extreme conditions\n• Fuel Efficient",
+      image: "/images.jpeg",
+      icon: "⚡"
+    },
+    // {
+    //   title: "Parts & Accessories",
+    //   desc: "• Comprehensive range of genuine parts and accessories\n• Maintain peak performance of your equipment\n• Professional installation and support\n• Quality guaranteed components",
+    //   image: "/product4.png", 
+    //   icon: "🔧"
+    // },
+    {
+      title: "Ashok Leyland",
+      desc: "• Enclosed diesel power generators\n• From 30kva – 250kva\n• Ultimate Convenience with AMF\n• Status Indicators",
+      image: "/asok.webp",
+      icon: "🚚"
+    }
   ];
 
   const galleryImages = [
     "/gal1.jpg",
-    "/gal2.jpg", 
+    "/gal2.jpg",
     "/gal3.jpg",
     "/gal4.jpg",
     "/gallery/gal1.jpg",
@@ -113,13 +115,13 @@ export default function Home() {
   useEffect(() => {
     const galleryTimer = setInterval(() => {
       setCurrentGallerySlide((prev) => {
-        const totalSlides = Math.ceil(galleryImages.length / 5);
+        const totalSlides = Math.ceil(galleryImages.length / 4);
         if (prev >= totalSlides - 1) {
           return 0;
         }
         return prev + 1;
       });
-    }, 4000);
+    }, 10000); // Slower transition - 5 seconds
     return () => clearInterval(galleryTimer);
   }, [galleryImages.length]);
 
@@ -140,13 +142,35 @@ export default function Home() {
   };
 
   const nextGallerySlide = () => {
-    const totalSlides = Math.ceil(galleryImages.length / 5);
+    const totalSlides = Math.ceil(galleryImages.length / 4);
     setCurrentGallerySlide((prev) => (prev + 1) % totalSlides);
   };
 
   const prevGallerySlide = () => {
-    const totalSlides = Math.ceil(galleryImages.length / 5);
+    const totalSlides = Math.ceil(galleryImages.length / 4);
     setCurrentGallerySlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
+
+  const openImagePopup = (image: string) => {
+    setSelectedImage(image);
+    setImageZoom(1);
+  };
+
+  const closeImagePopup = () => {
+    setSelectedImage(null);
+    setImageZoom(1);
+  };
+
+  const zoomIn = () => {
+    setImageZoom((prev) => Math.min(prev + 0.25, 3));
+  };
+
+  const zoomOut = () => {
+    setImageZoom((prev) => Math.max(prev - 0.25, 0.5));
+  };
+
+  const resetZoom = () => {
+    setImageZoom(1);
   };
 
   // Smooth scroll function with offset for sticky header
@@ -205,7 +229,7 @@ export default function Home() {
     <div className="bg-gray-50 min-h-screen w-full font-sans">
       {/* Navigation Bar */}
       <header className="flex items-center justify-between px-6 py-2 bg-white/90 backdrop-blur-md shadow-lg shadow-[#eb3337]/20 border-b border-[#eb3337]/10 sticky top-0 z-50 transition-all duration-300" style={{
-        background:"linear-gradient(45deg, #00000000, #3c77af)"
+        background: "linear-gradient(45deg, #00000000, #3c77af)"
       }}>
         <div className="flex items-center gap-2">
           <Image src="/logo.png" alt="NMD Logo" width={150} height={100} />
@@ -255,14 +279,14 @@ export default function Home() {
                 Gallery
               </button>
             </li>
-            <li>
+            {/* <li>
               <button
                 onClick={() => scrollToSection('testimonial')}
                 className="text-white hover:text-red-600 transition-all duration-300 hover:scale-105 hover:drop-shadow-lg cursor-pointer"
               >
                 Testimonial
               </button>
-            </li>
+            </li> */}
             {/* <li>
               <button 
                 onClick={() => scrollToSection('faq')} 
@@ -447,7 +471,7 @@ export default function Home() {
         <div className="relative max-w-full mx-auto">
           {/* Multi-Product Carousel Container */}
           <div className="relative overflow-hidden rounded-2xl">
-            <div 
+            <div
               className="flex transition-transform duration-500 ease-in-out"
               style={{
                 transform: `translateX(-${currentProductSlide * (100 / products.length)}%)`
@@ -456,7 +480,7 @@ export default function Home() {
               {[...products, ...products].map((product, index) => (
                 <div key={index} className="md:w-1/4 flex-shrink-0">
                   <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 flex flex-col items-center text-center shadow-2xl shadow-[#eb3337]/20 hover:shadow-2xl hover:shadow-[#eb3337]/30 transition-all duration-500 border border-white/30 hover:scale-105 hover:-translate-y-2 group min-h-[430px] mb-5 mx-2">
-                    <div className="w-24 h-24 mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-[#eb3337] to-[#d12832] flex items-center justify-center relative shadow-lg shadow-[#eb3337]/40 group-hover:shadow-xl group-hover:shadow-[#eb3337]/50 transition-all duration-300">
+                    <div className="w-40 h-40 mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-[#eb3337] to-[#d12832] flex items-center justify-center relative shadow-lg shadow-[#eb3337]/40 group-hover:shadow-xl group-hover:shadow-[#eb3337]/50 transition-all duration-300">
                       <Image
                         src={product.image}
                         alt={product.title}
@@ -483,10 +507,10 @@ export default function Home() {
                   </div>
                 </div>
               ))}
-             
+
             </div>
           </div>
-          
+
           {/* Navigation Buttons */}
           <button
             onClick={prevProductSlide}
@@ -500,7 +524,7 @@ export default function Home() {
           >
             &#8250;
           </button>
-          
+
 
         </div>
       </section>
@@ -552,18 +576,18 @@ export default function Home() {
               image: "/ser6.jpg",
               icon: "🔧",
             },
-           
+
           ].map((service, i) => (
             <div
               key={i}
               className="flex flex-col items-center text-center group p-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl hover:shadow-[#eb3337]/30 transition-all duration-300"
             >
               {/* Image/Icon */}
-              <div className="relative w-16 h-26 mb-4 flex items-center justify-center">
+              <div className="relative w-36 h-36 mb-4 flex items-center justify-center">
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="w-16 h-16 object-contain rounded-full border border-gray-200 shadow-md group-hover:scale-110 transition-transform duration-300"
+                  className="w-36 h-36 object-cover border border-gray-200 shadow-md group-hover:scale-110 transition-transform duration-300"
                 />
                 {/* <span className="absolute -bottom-2 right-0 text-2xl">
             {service.icon}
@@ -589,24 +613,24 @@ export default function Home() {
         <h3 className="text-2xl font-bold text-center mb-2 relative z-10 drop-shadow-sm">About Us</h3>
         <h5 className="text-[20px] font-bold text-center mb-10 relative z-10 drop-shadow-sm">Welcome to NMD Electricals services</h5>
         <div className="max-w-7xl mx-auto text-center text-gray-700 relative z-10 bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-2xl shadow-[#eb3337]/10 border border-white/30">
-         Founded in 1967 as an electric and wiring service
-provider from small to medium scale business in
-Chennai. NMD Electricals services has provided
-startling generator service to the businesses in need of
-power.
-Our mission is to deliver consistent power and reliable
-solutions that enhance the productivity and efficiency of
-our clients. Over 58 years of industry experience and
-countless client handling with rigorous quality control
-and management.<br></br>
-The ultimate aim of our company is to provide best
-quality generator rental service in Chennai, Tamil Nadu
-and ensure highest customer satisfaction, for which we
-NMD electrical services and NMD power work round the
-clock.
-Here at NMD Electricals service we have committed
-ourselves for the soul purpose of ensuring uninterrupted power supply even during disaster and calamity times
-like cyclones, floods and the recent pandemic situation.
+          Founded in 1967 as an electric and wiring service
+          provider from small to medium scale business in
+          Chennai. NMD Electricals services has provided
+          startling generator service to the businesses in need of
+          power.
+          Our mission is to deliver consistent power and reliable
+          solutions that enhance the productivity and efficiency of
+          our clients. Over 58 years of industry experience and
+          countless client handling with rigorous quality control
+          and management.<br></br>
+          The ultimate aim of our company is to provide best
+          quality generator rental service in Chennai, Tamil Nadu
+          and ensure highest customer satisfaction, for which we
+          NMD electrical services and NMD power work round the
+          clock.
+          Here at NMD Electricals service we have committed
+          ourselves for the soul purpose of ensuring uninterrupted power supply even during disaster and calamity times
+          like cyclones, floods and the recent pandemic situation.
         </div>
       </section>
 
@@ -614,15 +638,15 @@ like cyclones, floods and the recent pandemic situation.
       <section id="about" className="py-16 px-6 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-l from-[#eb3337]/5 to-transparent"></div>
         <h3 className="text-2xl font-bold text-center mb-2 relative z-10 drop-shadow-sm"> Why choose us? </h3>
-      
+
         <div className="max-w-7xl mx-auto text-center text-gray-700 relative z-10 bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-2xl shadow-[#eb3337]/10 border border-white/30">
           Dedicated support team available 24/7. Emergency
-situations are addressed promptly with utmost
-importance and care. For small business to large scale
-operations, we’re the right fit for you because our
-platform is specifically designed to handle the unique
-challenges of rapid growth while keeping costs
-manageable.
+          situations are addressed promptly with utmost
+          importance and care. For small business to large scale
+          operations, we’re the right fit for you because our
+          platform is specifically designed to handle the unique
+          challenges of rapid growth while keeping costs
+          manageable.
         </div>
       </section>
 
@@ -639,23 +663,24 @@ manageable.
         <div className="relative max-w-7xl mx-auto">
           {/* Gallery Slider Container */}
           <div className="relative overflow-hidden rounded-2xl">
-            <div 
-              className="flex transition-transform duration-500 ease-in-out"
+            <div
+              className="flex transition-transform duration-1000 ease-in-out"
               style={{
                 transform: `translateX(-${currentGallerySlide * 100}%)`
               }}
             >
-              {Array.from({ length: Math.ceil(galleryImages.length / 5) }).map((_, slideIndex) => (
+              {Array.from({ length: Math.ceil(galleryImages.length / 4) }).map((_, slideIndex) => (
                 <div key={slideIndex} className="w-full flex-shrink-0">
-                  <div className="grid grid-cols-1 gap-4">
-                    {galleryImages.slice(slideIndex * 5, (slideIndex + 1) * 5).map((image, i) => (
+                  <div className="grid grid-cols-4 gap-4">
+                    {galleryImages.slice(slideIndex * 4, (slideIndex + 1) * 4).map((image, i) => (
                       <div
                         key={i}
-                        className="bg-white/70 backdrop-blur-sm rounded-lg h-48 flex items-center justify-center shadow-xl shadow-[#eb3337]/20 hover:shadow-2xl hover:shadow-[#eb3337]/30 transition-all duration-300 hover:scale-105 hover:-translate-y-1 border border-white/30 overflow-hidden group"
+                        className="bg-white/70 backdrop-blur-sm rounded-lg h-58 flex items-center justify-center shadow-xl shadow-[#eb3337]/20 hover:shadow-2xl hover:shadow-[#eb3337]/30 transition-all duration-300 hover:scale-105 hover:-translate-y-1 border border-white/30 overflow-hidden group cursor-pointer"
+                        onClick={() => openImagePopup(image)}
                       >
                         <Image
                           src={image}
-                          alt={`Gallery ${slideIndex * 5 + i + 1}`}
+                          alt={`Gallery ${slideIndex * 4 + i + 1}`}
                           fill
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
@@ -683,24 +708,96 @@ manageable.
 
           {/* Dot Indicators */}
           <div className="flex justify-center mt-8 space-x-3">
-            {Array.from({ length: Math.ceil(galleryImages.length / 5) }).map((_, index) => (
+            {Array.from({ length: Math.ceil(galleryImages.length / 4) }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentGallerySlide(index)}
-                className={`w-4 h-4 rounded-full transition-all duration-300 ${
-                  index === currentGallerySlide 
-                    ? 'bg-[#eb3337] shadow-2xl shadow-[#eb3337]/50 scale-125 border-2 border-white' 
+                className={`w-4 h-4 rounded-full transition-all duration-300 ${index === currentGallerySlide
+                    ? 'bg-[#eb3337] shadow-2xl shadow-[#eb3337]/50 scale-125 border-2 border-white'
                     : 'bg-gray-300 hover:bg-[#eb3337]/50 hover:scale-110'
-                }`}
+                  }`}
               />
             ))}
           </div>
         </div>
       </section>
 
+      {/* Image Popup Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn"
+          onClick={closeImagePopup}
+        >
+          {/* Close Button */}
+          <button
+            onClick={closeImagePopup}
+            className="absolute top-4 right-4 text-white text-4xl font-bold hover:text-[#eb3337] transition-colors duration-300 z-20 w-12 h-12 flex items-center justify-center cursor-pointer"
+            aria-label="Close popup"
+          >
+            &times;
+          </button>
+
+          {/* Zoom Controls */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 z-20">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                zoomOut();
+              }}
+              className="text-white text-2xl font-bold hover:text-[#eb3337] transition-colors duration-300 w-10 h-10 flex items-center justify-center cursor-pointer hover:scale-110"
+              aria-label="Zoom out"
+            >
+              −
+            </button>
+            <span className="text-white font-semibold min-w-[60px] text-center">
+              {Math.round(imageZoom * 100)}%
+            </span>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                zoomIn();
+              }}
+              className="text-white text-2xl font-bold hover:text-[#eb3337] transition-colors duration-300 w-10 h-10 flex items-center justify-center cursor-pointer hover:scale-110"
+              aria-label="Zoom in"
+            >
+              +
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                resetZoom();
+              }}
+              className="text-white text-sm font-semibold hover:text-[#eb3337] transition-colors duration-300 px-3 py-1 cursor-pointer"
+              aria-label="Reset zoom"
+            >
+              Reset
+            </button>
+          </div>
+
+          {/* Image Container */}
+          <div className="relative max-w-5xl max-h-[90vh] w-full h-full flex items-center justify-center overflow-hidden">
+            <div 
+              className="relative w-full h-full transition-transform duration-300 ease-out"
+              style={{ 
+                transform: `scale(${imageZoom})`,
+                cursor: imageZoom > 1 ? 'move' : 'default'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={selectedImage}
+                alt="Gallery Image"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
 
       {/* Testimonials Section */}
-      <section id="testimonial" className="py-16 px-6 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
+      {/* <section id="testimonial" className="py-16 px-6 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-l from-[#eb3337]/5 to-transparent"></div>
         <h3 className="text-2xl font-bold text-center mb-10 relative z-10 drop-shadow-sm">Testimonials</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-7xl mx-auto relative z-10">
@@ -719,7 +816,7 @@ manageable.
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* FAQ Section */}
       {/* <section id="faq" className="py-16 px-6 bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
