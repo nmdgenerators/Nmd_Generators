@@ -103,10 +103,12 @@ export default function Home() {
   useEffect(() => {
     const productTimer = setInterval(() => {
       setCurrentProductSlide((prev) => {
-        if (prev >= products.length - 1) {
-          return 0;
+        const next = prev + 1;
+        if (next >= products.length) {
+          setTimeout(() => setCurrentProductSlide(0), 500);
+          return next;
         }
-        return prev + 1;
+        return next;
       });
     }, 3000);
     return () => clearInterval(productTimer);
@@ -134,11 +136,24 @@ export default function Home() {
   };
 
   const nextProductSlide = () => {
-    setCurrentProductSlide((prev) => (prev + 1) % products.length);
+    setCurrentProductSlide((prev) => {
+      const next = prev + 1;
+      if (next >= products.length) {
+        setTimeout(() => setCurrentProductSlide(0), 500);
+        return next;
+      }
+      return next;
+    });
   };
 
   const prevProductSlide = () => {
-    setCurrentProductSlide((prev) => (prev - 1 + products.length) % products.length);
+    setCurrentProductSlide((prev) => {
+      if (prev <= 0) {
+        setTimeout(() => setCurrentProductSlide(products.length - 1), 500);
+        return -1;
+      }
+      return prev - 1;
+    });
   };
 
   const nextGallerySlide = () => {
@@ -474,12 +489,12 @@ export default function Home() {
             <div
               className="flex transition-transform duration-500 ease-in-out"
               style={{
-                transform: `translateX(-${currentProductSlide * (100 / products.length)}%)`
+                transform: `translateX(-${currentProductSlide * (100 / (window.innerWidth >= 768 ? 4 : 1))}%)`
               }}
             >
-              {[...products, ...products].map((product, index) => (
-                <div key={index} className="md:w-1/4 flex-shrink-0">
-                  <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 flex flex-col items-center text-center shadow-2xl shadow-[#eb3337]/20 hover:shadow-2xl hover:shadow-[#eb3337]/30 transition-all duration-500 border border-white/30 hover:scale-105 hover:-translate-y-2 group min-h-[430px] mb-5 mx-2">
+              {[...products, ...products, ...products].map((product, index) => (
+                <div key={index} className="w-full md:w-1/4 flex-shrink-0 px-2">
+                  <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 flex flex-col items-center text-center shadow-2xl shadow-[#eb3337]/20 hover:shadow-2xl hover:shadow-[#eb3337]/30 transition-all duration-500 border border-white/30 hover:scale-105 hover:-translate-y-2 group min-h-[430px]">
                     <div className="w-40 h-40 mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-[#eb3337] to-[#d12832] flex items-center justify-center relative shadow-lg shadow-[#eb3337]/40 group-hover:shadow-xl group-hover:shadow-[#eb3337]/50 transition-all duration-300">
                       <Image
                         src={product.image}
@@ -535,7 +550,7 @@ export default function Home() {
         className="py-16 px-6 bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-[#eb3337]/5 to-transparent"></div>
-        <h3 className="text-2xl font-bold text-center mb-10 relative z-10 drop-shadow-sm">
+        <h3 className="text-2xl font-bold text-center mb-10 relative z-10 drop-shadow-sm text-[#000]">
           Our Services
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-7xl mx-auto relative z-10">
@@ -543,13 +558,13 @@ export default function Home() {
             {
               title: "Installation",
               desc: "Expert installation service to ensure optimal performance. Automated control panel are customized by our technical team during installation for generator switching. Generators rental for monthly and yearly basis is installed within 2-5 business day. Generator rental for daily basis is installed as trolley mounted in accordance to the customer’s need.",
-              image: "/ser1.jpg",
+              image: "/gallery/installation.jpg",
               icon: "🏭",
             },
             {
               title: "Maintenance",
               desc: "Generators on rental will be on regularmaintenance plans to upheld our equipment in top condition. Generators are coated with weather proof to ensure uninterrupted service during the time of tough weather conditions. Annual maintenance contract is also done. Rental generator radiators are maintained pre-eminent.",
-              image: "/ser2.webp",
+              image: "/gallery/maintanence.jpg",
               icon: "⚙️",
             },
             {
@@ -561,19 +576,19 @@ export default function Home() {
             {
               title: "Re-winding",
               desc: "AC and DC electrical motors rewinding are done. High-tension and Low-tension motor shop. All types of alternator re-winding are done.",
-              image: "/ser4.jpg",
+              image: "/gallery/re winding.jpeg",
               icon: "🔧",
             },
             {
               title: "Rental",
               desc: "We also come up with rental for Bosch pipe cutter, paint mixing machine, air compressor, welding machine, inverter welding machine, demolishing machine, hand grinder, car polishing machine.",
-              image: "/ser5.jpg",
+              image: "/gallery/rental.jpg",
               icon: "🔧",
             },
             {
               title: "Parts and accessories",
               desc: "All types of enclosed diesel power generator spare parts available for sale and services. The service is provided by our enhanced technical team upon inspection. We also sell spares and deliver restoring services to all kinds of welding, grinder and demolishing machines.",
-              image: "/ser6.jpg",
+              image: "/gallery/parts and accessory.jpeg",
               icon: "🔧",
             },
 
@@ -595,7 +610,7 @@ export default function Home() {
               </div>
 
               {/* Title */}
-              <h4 className="font-bold mb-2 group-hover:text-[#eb3337] transition-colors duration-300 text-lg">
+              <h4 className="font-bold mb-2 group-hover:text-[#eb3337] transition-colors duration-300 text-lg text-[#000]">
                 {service.title}
               </h4>
 
@@ -610,8 +625,8 @@ export default function Home() {
       {/* About Us Section */}
       <section id="about" className="py-16 px-6 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-l from-[#eb3337]/5 to-transparent"></div>
-        <h3 className="text-2xl font-bold text-center mb-2 relative z-10 drop-shadow-sm">About Us</h3>
-        <h5 className="text-[20px] font-bold text-center mb-10 relative z-10 drop-shadow-sm">Welcome to NMD Electricals services</h5>
+        <h3 className="text-2xl font-bold text-center mb-2 relative z-10 drop-shadow-sm text-[#000]">About Us</h3>
+        <h5 className="text-[20px] font-bold text-center mb-10 relative z-10 drop-shadow-sm text-[#000]">Welcome to NMD Electricals services</h5>
         <div className="max-w-7xl mx-auto text-center text-gray-700 relative z-10 bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-2xl shadow-[#eb3337]/10 border border-white/30">
           Founded in 1967 as an electric and wiring service
           provider from small to medium scale business in
@@ -637,7 +652,7 @@ export default function Home() {
 
       <section id="about" className="py-16 px-6 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-l from-[#eb3337]/5 to-transparent"></div>
-        <h3 className="text-2xl font-bold text-center mb-2 relative z-10 drop-shadow-sm"> Why choose us? </h3>
+        <h3 className="text-2xl font-bold text-center mb-2 relative z-10 drop-shadow-sm text-[#000]"> Why choose us? </h3>
 
         <div className="max-w-7xl mx-auto text-center text-gray-700 relative z-10 bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-2xl shadow-[#eb3337]/10 border border-white/30">
           Dedicated support team available 24/7. Emergency
@@ -656,7 +671,7 @@ export default function Home() {
         className="py-16 px-6 bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-[#eb3337]/5 to-transparent"></div>
-        <h3 className="text-2xl font-bold text-center mb-10 relative z-10 drop-shadow-sm">
+        <h3 className="text-2xl font-bold text-center mb-10 relative z-10 drop-shadow-sm text-[#000]">
           Gallery
         </h3>
 
@@ -671,7 +686,7 @@ export default function Home() {
             >
               {Array.from({ length: Math.ceil(galleryImages.length / 4) }).map((_, slideIndex) => (
                 <div key={slideIndex} className="w-full flex-shrink-0">
-                  <div className="grid grid-cols-4 gap-4">
+                  <div className="grid md:grid-cols-4 gap-4">
                     {galleryImages.slice(slideIndex * 4, (slideIndex + 1) * 4).map((image, i) => (
                       <div
                         key={i}
@@ -838,7 +853,7 @@ export default function Home() {
       {/* Contact Section */}
       <section id="contact" className="py-16 px-6 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-l from-[#eb3337]/5 to-transparent"></div>
-        <h3 className="text-2xl font-bold text-center mb-10 relative z-10 drop-shadow-sm">Contact Us</h3>
+        <h3 className="text-2xl font-bold text-center mb-10 relative z-10 drop-shadow-sm text-[#000]">Contact Us</h3>
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl shadow-[#eb3337]/15 border border-white/30 hover:shadow-2xl hover:shadow-[#eb3337]/25 transition-all duration-300">
@@ -869,7 +884,7 @@ export default function Home() {
                 <input
                   type="text"
                   placeholder="Your Name"
-                  className="w-full p-3 rounded-lg border border-gray-300 focus:border-[#eb3337] focus:outline-none transition-colors backdrop-blur-sm bg-white/90"
+                  className="w-full p-3 rounded-lg border border-gray-300 focus:border-[#eb3337] focus:outline-none transition-colors backdrop-blur-sm bg-white/90 text-gray-900 placeholder:text-gray-500"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
@@ -877,14 +892,14 @@ export default function Home() {
                 <input
                   type="email"
                   placeholder="Your Email"
-                  className="w-full p-3 rounded-lg border border-gray-300 focus:border-[#eb3337] focus:outline-none transition-colors backdrop-blur-sm bg-white/90"
+                  className="w-full p-3 rounded-lg border border-gray-300 focus:border-[#eb3337] focus:outline-none transition-colors backdrop-blur-sm bg-white/90 text-gray-900 placeholder:text-gray-500"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
                 <input
                   type="text"
                   placeholder="Your Mobile"
-                  className="w-full p-3 rounded-lg border border-gray-300 focus:border-[#eb3337] focus:outline-none transition-colors backdrop-blur-sm bg-white/90"
+                  className="w-full p-3 rounded-lg border border-gray-300 focus:border-[#eb3337] focus:outline-none transition-colors backdrop-blur-sm bg-white/90 text-gray-900 placeholder:text-gray-500"
                   value={formData.mobile}
                   onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
                   required
@@ -892,7 +907,7 @@ export default function Home() {
                 <input
                   type="text"
                   placeholder="Your Location"
-                  className="w-full p-3 rounded-lg border border-gray-300 focus:border-[#eb3337] focus:outline-none transition-colors backdrop-blur-sm bg-white/90"
+                  className="w-full p-3 rounded-lg border border-gray-300 focus:border-[#eb3337] focus:outline-none transition-colors backdrop-blur-sm bg-white/90 text-gray-900 placeholder:text-gray-500"
                   value={formData.location}
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                   required
@@ -900,7 +915,7 @@ export default function Home() {
                 <textarea
                   rows={4}
                   placeholder="Your Message"
-                  className="w-full p-3 rounded-lg border border-gray-300 focus:border-[#eb3337] focus:outline-none transition-colors backdrop-blur-sm bg-white/90"
+                  className="w-full p-3 rounded-lg border border-gray-300 focus:border-[#eb3337] focus:outline-none transition-colors backdrop-blur-sm bg-white/90 text-gray-900 placeholder:text-gray-500"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 ></textarea>

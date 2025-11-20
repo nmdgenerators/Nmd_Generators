@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "NMD Electricals - Generator Services & Rentals in Chennai",
-  description: "NMD Electricals provides generator rental, installation, maintenance, and electrical services in Chennai since 1967. 24/7 support for all your power needs.",
+  description: "NMD Electricals provides generator rental, installation, maintenance, and electrical services.24/7 support for all your power needs.",
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
