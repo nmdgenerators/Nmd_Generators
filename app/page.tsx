@@ -240,6 +240,17 @@ export default function Home() {
     }
   };
 
+  // Responsive items per slide for carousel
+  const [itemsPerSlide, setItemsPerSlide] = useState(1);
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerSlide(window.innerWidth >= 768 ? 4 : 1);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div className="bg-gray-50 min-h-screen w-full font-sans">
       {/* Navigation Bar */}
@@ -489,7 +500,7 @@ export default function Home() {
             <div
               className="flex transition-transform duration-500 ease-in-out"
               style={{
-                transform: `translateX(-${currentProductSlide * (100 / (window.innerWidth >= 768 ? 4 : 1))}%)`
+                transform: `translateX(-${currentProductSlide * (100 / itemsPerSlide)}%)`
               }}
             >
               {[...products, ...products, ...products].map((product, index) => (
@@ -935,7 +946,7 @@ export default function Home() {
       <footer className="bg-gradient-to-br from-gray-200 to-gray-300 py-10 text-center text-xl font-bold text-gray-700 mt-10 relative overflow-hidden shadow-2xl shadow-[#eb3337]/20">
         <div className="absolute inset-0 bg-gradient-to-r from-[#eb3337]/10 to-transparent"></div>
         <div className="relative z-10 backdrop-blur-sm">
-          &copy; {new Date().getFullYear()} <span className="text-[#eb3337] drop-shadow-lg">NMD</span>. All rights reserved.
+          &copy; {new Date().getFullYear()} <span className="text-[#eb3337] drop-shadow-lg">NMD Electrical Services</span>. All rights reserved.
         </div>
       </footer>
     </div>
