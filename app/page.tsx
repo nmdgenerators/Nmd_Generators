@@ -866,12 +866,33 @@ export default function Home() {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <span className="text-[#eb3337] text-xl">📧</span>
-                  <span className="text-gray-700">nmdgenerators@gmail.com</span>
+                  <a
+                    href="mailto:nmdgenerators@gmail.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-700 hover:text-[#eb3337] underline cursor-pointer"
+                  >
+                    nmdgenerators@gmail.com
+                  </a>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-[#eb3337] text-xl">📞</span>
-                  <span className="text-gray-700">+91 98410 73317</span>
-                  <span className="text-gray-700">+91 63816 50216</span>
+                  <a
+                    href="https://wa.me/919841073317"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-700 hover:text-[#eb3337] underline cursor-pointer"
+                  >
+                    +91 98410 73317
+                  </a>
+                  <a
+                    href="https://wa.me/916381650216"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-700 hover:text-[#eb3337] underline cursor-pointer"
+                  >
+                    +91 63816 50216
+                  </a>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-[#eb3337] text-xl">📍</span>
