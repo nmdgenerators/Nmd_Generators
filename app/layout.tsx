@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NMD Electrical Services",
+  title: "NMD Electrical Services | Generators Rental in Chennai",
   description: "NMD Electricals provides generator rental, installation, maintenance, and electrical services.24/7 support for all your power needs.",
   icons: {
     icon: '/favicon.ico',

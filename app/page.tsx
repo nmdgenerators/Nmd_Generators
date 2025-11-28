@@ -84,13 +84,7 @@ export default function Home() {
     "/gallery/gal13.jpg",
     "/gallery/gal14.jpg",
     "/gallery/gal15.jpg",
-    "/gallery/gal16.jpg",
-    "/gallery/gal17.jpg",
-    "/gallery/gal18.jpg",
-    "/gallery/gal19.jpg",
-    "/gallery/gal20.jpg",
-    "/gallery/gal21.jpg",
-    "/gallery/gal22.jpg"
+
   ];
 
   useEffect(() => {
@@ -587,7 +581,7 @@ export default function Home() {
             {
               title: "Re-winding",
               desc: "AC and DC electrical motors rewinding are done. High-tension and Low-tension motor shop. All types of alternator re-winding are done.",
-              image: "/gallery/re winding.jpeg",
+              image: "/gallery/rewinding.jpeg",
               icon: "🔧",
             },
             {
@@ -637,7 +631,7 @@ export default function Home() {
       <section id="about" className="py-16 px-6 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-l from-[#eb3337]/5 to-transparent"></div>
         <h3 className="text-2xl font-bold text-center mb-2 relative z-10 drop-shadow-sm text-[#000]">About Us</h3>
-        <h5 className="text-[20px] font-bold text-center mb-10 relative z-10 drop-shadow-sm text-[#000]">Welcome to NMD Electricals services</h5>
+        <h5 className="text-[20px] font-bold text-center mb-10 relative z-10 drop-shadow-sm text-[#000]">Welcome to NMD Electrical services</h5>
         <div className="max-w-7xl mx-auto text-center text-gray-700 relative z-10 bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-2xl shadow-[#eb3337]/10 border border-white/30">
           Founded in 1967 as an electric and wiring service
           provider from small to medium scale business in
