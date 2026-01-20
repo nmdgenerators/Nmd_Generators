@@ -214,7 +214,9 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch('https://api.nmdgenerators.com/api/contact', {
+      const apiUrl = process.env.NEXT_PUBLIC_CONTACT_API_URL ;
+      if (!apiUrl) throw new Error('API URL is not defined');
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
